@@ -1,0 +1,57 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(Lahman)
+library(sqldf)
+library(ggplot2)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+query<-"SELECT playerID, SB FROM Batting
+WHERE playerID='loftoke01'"
+result<-sqldf(query)
+
+
+#-----
+ggplot()+
+  geom_histogram(data=result,aes(x=SB),bins=5,color='blue',fill="white")
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+query<-"SELECT teamID,playerID,sum(SB) AS total_SB
+FROM Batting
+WHERE playerID='loftoke01'
+GROUP BY teamID
+ORDER BY sum(SB)"
+result<-sqldf(query)
+result$teamID<-factor(result$teamID,levels=result$teamID)
+#-------------------
+ggplot()+
+  geom_bar(data=result,aes(x=teamID,y=total_SB),stat='identity')
+
+```
+
+### Chart C
+
+```{r}
+
+```
+

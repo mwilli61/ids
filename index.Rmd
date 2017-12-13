@@ -1,0 +1,50 @@
+---
+title: "Yankee Stats"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(Lahman)
+library(sqldf)
+library(ggplot2)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Yankee Homerun Stats throughout the Years
+
+```{r}
+#gathering the data----------
+query<-"SELECT yearID,HR
+FROM Teams
+WHERE teamID='NYA'"
+
+result<-sqldf(query)
+
+# visualizing the data--------
+ggplot()+
+  geom_line(data=result,aes(x=yearID, y=HR))+
+  xlab('year')+
+  ylab('homerun')
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+

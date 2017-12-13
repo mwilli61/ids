@@ -1,0 +1,57 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+library(Lahman)
+library(sqldf)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+query<-"SELECT W FROM Pitching
+"
+result<-sqldf(query)
+
+
+
+###
+ggplot()+
+  geom_histogram(data=result,aes(x=W), bins=30, color="blue", fill= "white")
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+query<- "SELECT nameFirst,nameLast,yearID,teamID,SB AS career_SB
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+WHERE teamID='SLN' 
+"
+result<-sqldf(query)
+
+#_______
+ggplot()+
+  geom_bar(data = result,aes(x=nameLast,y=career_SB),stat='identity')
+```
+
+### Chart C
+
+```{r}
+
+```
+
